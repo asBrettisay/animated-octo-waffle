@@ -1,5 +1,5 @@
 angular.module('stripeDemo', [])
-.directive('stripePayment', function() {
+.directive('stripePayment', function($http) {
   return {
     restrict: 'E',
     template: '<button id="customButton">Purchase</button>',
@@ -11,6 +11,13 @@ angular.module('stripeDemo', [])
         token: function(token) {
           // You can access the token ID with `token.id`.
           // Get the token ID to your server-side code for use.
+          console.log(token);
+          $http.post('/api/charge', {
+            stripeToken: token.id,
+            price: 1000,
+            email: token.email,
+            stripeTokenCard: token.card
+          })
         }
       });
 
