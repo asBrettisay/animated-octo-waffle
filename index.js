@@ -18,15 +18,18 @@ app.post('/api/charge', function(req, res) {
 
   // Create a charge: this will charge the user's card
   var charge = stripe.charges.create({
-   amount: req.body.price, // Amount in cents
+   amount: '2000', // Amount in cents
    currency: "usd",
    source: token,
    description: "Example charge"
   }, function(err, charge) {
    if (err && err.type === 'StripeCardError') {
      // The card has been declined
+     console.log('err', err);
    } else {
+     console.log('ARGS', arguments);
      // Store order status
+     console.log('CHARGE', charge);
      res.status(200).send(charge);
    }
   });
